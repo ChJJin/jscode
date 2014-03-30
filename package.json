@@ -1,0 +1,20 @@
+{
+  "name": "jscode",
+  "version": "0.0.1",
+  "description": "jscode",
+  "dependencies": {
+    "coffee-script": "~1.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChJJin/jscode.git"
+  },
+  "homepage": "https://github.com/ChJJin/jscode",
+  "devDependencies": {
+    "gulp": "~3.6.0",
+    "gulp-coffee": "~1.4.1"
+  },
+  "scripts": {
+    "gulp": "gulp --require coffee-script/register"
+  }
+}

@@ -1,0 +1,6 @@
+{
+	"coffee": {
+		"src": "./src/coffee/**/*.coffee",
+		"dest": "./src/js"
+	}
+}
