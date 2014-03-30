@@ -12,7 +12,8 @@
   "homepage": "https://github.com/ChJJin/jscode",
   "devDependencies": {
     "gulp": "~3.6.0",
-    "gulp-coffee": "~1.4.1"
+    "gulp-coffee": "~1.4.1",
+    "gulp-util": "~2.2.14"
   },
   "scripts": {
     "gulp": "gulp --require coffee-script/register"
