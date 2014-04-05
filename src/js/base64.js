@@ -88,9 +88,19 @@
     return output;
   };
 
-  this.Base64 = {
-    encode: encode,
-    decode: decode
-  };
+  if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
+    module.exports = {
+      encode: encode,
+      decode: decode
+    };
+  } else {
+    if (this.J == null) {
+      this.J = {};
+    }
+    this.J.Base64 = {
+      encode: encode,
+      decode: decode
+    };
+  }
 
 }).call(this);

@@ -70,4 +70,8 @@ decode = (input)->
 
   output
 
-@utf8 = {encode, decode}
+if module?.exports
+  module.exports = {encode, decode}
+else
+  @J ?= {}
+  @J.utf8 = {encode, decode}

@@ -2,7 +2,7 @@
   var J, argsClass, arrayClass, boolClass, dateClass, hasOwnProperty, numberClass, objectClass, regexpClass, stringClass, toString,
     __slice = [].slice;
 
-  J = this.J != null ? this.J : this.J = {};
+  J = {};
 
   argsClass = '[object Arguments]';
 
@@ -176,8 +176,13 @@
     return ret;
   };
 
-  if (typeof module !== "undefined" && module !== null) {
-    module.exports = this.J;
+  if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
+    module.exports = J;
+  } else {
+    if (this.J == null) {
+      this.J = {};
+    }
+    this.J._ = J;
   }
 
 }).call(this);

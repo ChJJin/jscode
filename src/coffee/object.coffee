@@ -1,4 +1,4 @@
-J = @J ?= {}
+J = {}
 
 argsClass   = '[object Arguments]'
 arrayClass  = '[object Array]'
@@ -168,4 +168,8 @@ J.join = (obj, divider = '.', prefix = '')->
       ret["#{prefix}#{key}"] = value
   return ret
 
-module?.exports = @J
+if module?.exports
+  module.exports = J
+else
+  @J ?= {}
+  @J._ = J

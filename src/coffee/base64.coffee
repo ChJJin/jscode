@@ -66,4 +66,8 @@ handleEncodeInput = (input)->
 handleDecodeOutput = (output)->
   output
 
-@Base64 = {encode, decode}
+if module?.exports
+  module.exports = {encode, decode}
+else
+  @J ?= {}
+  @J.Base64 = {encode, decode}
