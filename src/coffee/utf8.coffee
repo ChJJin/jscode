@@ -19,24 +19,24 @@ encode = (input)->
   for i in [0...input.length]
     code = input.charCodeAt i
 
-    if code < 128
+    if code < 0x0080
       # 0000 0000-0000 007F -> 0xxxxxxx
       output += String.fromCharCode code
-    else if (code > 127) and (code < 2048)
+    else if (code > 0x0079) and (code < 0x0800)
       # 0000 0080-0000 07FF -> 110xxxxx 10xxxxxx
-      output += String.fromCharCode((code >> 6) | 192)
-      output += String.fromCharCode((code & 63) | 128)
-    else if (code > 2047) and (code < 65536)
+      output += "%" + ((code >> 6) | 192).toString(16).toUpperCase()
+      output += "%" + ((code & 63) | 128).toString(16).toUpperCase()
+    else if (code > 0x07FF) and (code < 0x10000)
       # 0000 0800-0000 FFFF -> 1110xxxx 10xxxxxx 10xxxxxx
-      output += String.fromCharCode((code >> 12) | 224)
-      output += String.fromCharCode(((code >> 6) & 63) | 128)
-      output += String.fromCharCode((code & 63) | 128)
+      output += "%" + ((code >> 12) | 224).toString(16).toUpperCase()
+      output += "%" + (((code >> 6) & 63) | 128).toString(16).toUpperCase()
+      output += "%" + ((code & 63) | 128).toString(16).toUpperCase()
     else
       # 0001 0000-0010 FFFF -> 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-      output += String.fromCharCode((code >> 18) | 240)
-      output += String.fromCharCode(((code >> 12) & 63) | 128)
-      output += String.fromCharCode(((code >> 6) & 63) | 128)
-      output += String.fromCharCode((code & 63) | 128)
+      output += "%" + ((code >> 18) | 240).toString(16).toUpperCase()
+      output += "%" + (((code >> 12) & 63) | 128).toString(16).toUpperCase()
+      output += "%" + (((code >> 6) & 63) | 128).toString(16).toUpperCase()
+      output += "%" + ((code & 63) | 128).toString(16).toUpperCase()
 
   output
 
@@ -45,26 +45,35 @@ decode = (input)->
 
   i = 0
   while i < input.length
-    code = input.charCodeAt i++
+    code = []
+    if input.charAt(i) is "%"
+      code[0] = parseInt input.slice(i+1, i+3), 16
+      i += 3
+    else
+      code[0] = input.charCodeAt i++
+
     charcode = 0
-    if code < 128
+    if code[0] < 128
       # 0xxxxxxx
-      charcode = String.fromCharCode code
-    else if (code > 191) and (code < 224)
+      charcode = code[0]
+    else if (code[0] > 0xBF) and (code[0] < 0xE0)
       # 110xxxxx 10xxxxxx
-      code2 = input.charCodeAt i++
-      charcode = ((code & 31) << 6) | (code2 & 63)
-    else if (code > 223) and (code < 240)
+      for j in [1]
+        code[j] = parseInt input.slice(i+1, i+3), 16
+        i += 3
+      charcode = ((code[0] & 31) << 6) | (code[1] & 63)
+    else if (code[0] > 0xDF) and (code[0] < 0xF0)
       # 1110xxxx 10xxxxxx 10xxxxxx
-      code2 = input.charCodeAt i++
-      code3 = input.charCodeAt i++
-      charcode = ((code & 15) << 12) | ((code2 & 63) << 6) | (code3 & 63)
+      for j in [1, 2]
+        code[j] = parseInt input.slice(i+1, i+3), 16
+        i += 3
+      charcode = ((code[0] & 15) << 12) | ((code[1] & 63) << 6) | (code[2] & 63)
     else
       # 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-      code2 = input.charCodeAt i++
-      code3 = input.charCodeAt i++
-      code4 = input.charCodeAt i++
-      charcode = ((code & 7) << 18) | ((code2 & 63) << 12) | ((code3 & 63) << 6) | (code4 & 63)
+      for j in [1, 2, 3]
+        code[j] = parseInt input.slice(i+1, i+3), 16
+        i += 3
+      charcode = ((code[0] & 7) << 18) | ((code[1] & 63) << 12) | ((code[2] & 63) << 6) | (code[3] & 63)
 
     output += String.fromCharCode charcode
 
