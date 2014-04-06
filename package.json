@@ -13,9 +13,13 @@
   "devDependencies": {
     "gulp": "~3.6.0",
     "gulp-coffee": "~1.4.1",
-    "gulp-util": "~2.2.14"
+    "gulp-util": "~2.2.14",
+    "mocha": "~1.18.2",
+    "gulp-mocha": "~0.4.1",
+    "chai": "~1.9.1"
   },
   "scripts": {
-    "gulp": "gulp --require coffee-script/register"
+    "gulp": "gulp --require coffee-script/register",
+    "test": "mocha --reporter spec --compilers coffee:coffee-script/register"
   }
 }
