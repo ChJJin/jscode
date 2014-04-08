@@ -52,9 +52,19 @@ KMP = (search = "")->
         searchIterator.add()
         matchNum++
       else
-        matchValue = matchTable[searchIterator.getPreIndex()]
-        searchIterator.minus(matchNum - matchValue)
-        i--
+        # KMP match core
+        while matchNum isnt 0
+          matchValue = matchTable[searchIterator.getPreIndex()]
+          searchIterator.minus(matchNum - matchValue)
+          matchNum = matchValue
+          if str[i] is search[searchIterator.getIndex()]
+            searchIterator.add()
+            matchNum++
+            break
+        if matchNum is 0
+          searchIterator.reset()
+
+    return -1
 
 if module?.exports
   module.exports = KMP
