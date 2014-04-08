@@ -28,6 +28,18 @@ J.isNumber = (value)->
   isNumber = (typeof value is 'number') or (toString.call(value) is numberClass)
 
 # /*
+#  * check if `value` is a int number
+#  */
+J.isInt = (value)->
+  isInt = J.isNumber(value) and (value % 1 is 0)
+
+# /*
+#  * check if `value` is a float number
+#  */
+J.isFloat = (value)->
+  isFloat = J.isNumber(value) and (value is +value) and (value isnt (value | 0))
+
+# /*
 #  * check if `value` is a string
 #  */
 J.isString = (value)->
@@ -167,6 +179,25 @@ J.join = (obj, divider = '.', prefix = '')->
     else
       ret["#{prefix}#{key}"] = value
   return ret
+
+# /*
+#  * Create a deep-copied clone of the object.
+#  */
+J.clone = (obj)->
+  if J.isArray obj
+    copy = []
+    copy[index] = J.clone(value) for value, index in obj
+  else if J.isDate obj
+    copy = new Date obj
+  else if J.isRegExp obj
+    copy = new RegExp obj.source
+  else if J.isPlainObject obj
+    copy = J.extend {}, obj, true
+  else
+    copy = obj
+
+  copy
+
 
 if module?.exports
   module.exports = J
