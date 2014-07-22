@@ -1,9 +1,0 @@
-{
-	"coffee": {
-		"src": "./src/coffee/**/*.coffee",
-		"dest": "./src/js"
-	},
-	"test": {
-		"src": "./test/*"
-	}
-}

@@ -34,6 +34,16 @@
     return isNumber = (typeof value === 'number') || (toString.call(value) === numberClass);
   };
 
+  J.isInt = function(value) {
+    var isInt;
+    return isInt = J.isNumber(value) && (value % 1 === 0);
+  };
+
+  J.isFloat = function(value) {
+    var isFloat;
+    return isFloat = J.isNumber(value) && (value === +value) && (value !== (value | 0));
+  };
+
   J.isString = function(value) {
     var isString;
     return isString = (typeof value === 'string') || (toString.call(value) === stringClass);
@@ -174,6 +184,26 @@
       }
     }
     return ret;
+  };
+
+  J.clone = function(obj) {
+    var copy, index, value, _i, _len;
+    if (J.isArray(obj)) {
+      copy = [];
+      for (index = _i = 0, _len = obj.length; _i < _len; index = ++_i) {
+        value = obj[index];
+        copy[index] = J.clone(value);
+      }
+    } else if (J.isDate(obj)) {
+      copy = new Date(obj);
+    } else if (J.isRegExp(obj)) {
+      copy = new RegExp(obj.source);
+    } else if (J.isPlainObject(obj)) {
+      copy = J.extend({}, obj, true);
+    } else {
+      copy = obj;
+    }
+    return copy;
   };
 
   if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {

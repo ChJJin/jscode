@@ -11,12 +11,13 @@
   },
   "homepage": "https://github.com/ChJJin/jscode",
   "devDependencies": {
-    "gulp": "~3.6.0",
+    "gulp": "*",
     "gulp-coffee": "~1.4.1",
     "gulp-util": "~2.2.14",
     "mocha": "~1.18.2",
     "gulp-mocha": "~0.4.1",
-    "chai": "~1.9.1"
+    "chai": "~1.9.1",
+    "gulp-load-plugins": "^0.5.3"
   },
   "scripts": {
     "gulp": "gulp --require coffee-script/register",

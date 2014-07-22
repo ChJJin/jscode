@@ -57,11 +57,22 @@
           searchIterator.add();
           matchNum++;
         } else {
-          matchValue = matchTable[searchIterator.getPreIndex()];
-          searchIterator.minus(matchNum - matchValue);
-          i--;
+          while (matchNum !== 0) {
+            matchValue = matchTable[searchIterator.getPreIndex()];
+            searchIterator.minus(matchNum - matchValue);
+            matchNum = matchValue;
+            if (str[i] === search[searchIterator.getIndex()]) {
+              searchIterator.add();
+              matchNum++;
+              break;
+            }
+          }
+          if (matchNum === 0) {
+            searchIterator.reset();
+          }
         }
       }
+      return -1;
     };
   };
 
